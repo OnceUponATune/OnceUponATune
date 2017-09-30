@@ -1,6 +1,7 @@
 import nltk
 from nltk.sentiment import SentimentAnalyzer
 from nltk.classify import NaiveBayesClassifier
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.corpus import subjectivity
 from nltk.sentiment.util import *
 from flask import Flask
@@ -108,6 +109,13 @@ def get_lyrics(artist,song_title):
         # print(arr)
         for key,value in sorted(sentim_analyzer.evaluate(feature).items()):
             print('{0}: {1}'.format(key, value))
+
+        sim = SentimentIntensityAnalyzer()
+        for sentence in arr:
+            print(sentence)
+            ss = sim.polarity_scores(sentence)
+            for k in sorted(ss):
+                print k, ss[k]
         # story = lyrics
         # tokens = nltk.word_tokenize(story)
         # tagged = nltk.pos_tag(tokens)
