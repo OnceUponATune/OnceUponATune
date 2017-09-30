@@ -18,6 +18,18 @@ app.get("/", function(req, res) {
   res.sendFile(path.resolve('../client/index.html'));
 });
 
+app.get("/getPrompts", function(req, res) {
+  res.json({"subreddit": {
+    "Prompt1":"Scary",
+    "Prompt2":"Funny",
+    "Prompt3":"SciFi"
+  }});
+});
+
+app.post("promptChosen", function(req, res) {
+
+});
+
 app.listen(port, function(error) {
   if (error) {
     console.error(error)
