@@ -15,7 +15,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static('./dist'));
 
 app.get("/", function(req, res) {
-  res.sendFile(path.resolve('client/index.html'));
+  res.sendFile(path.resolve('../client/index.html'));
 });
 
 app.listen(port, function(error) {
