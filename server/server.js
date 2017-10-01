@@ -11,6 +11,8 @@ var app = express();
 var port = 3000;
 //Python server port = 5000
 
+var prompts = [];
+
 var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
@@ -25,6 +27,38 @@ app.get("/getPrompts", function(req, res) {
    console.log(req)
   res.send(json(['1','2','3']))
 });
+
+
+// TODO /getStory endpoint
+
+
+request.get("http://reddit.com/r/writingprompts.json",
+  function(error, response, body) {
+    console.log('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', JSON.parse(body));
+    var i = 0
+    var j = 0;
+    var list = JSON.parse(body).data.children;
+    console.log("List: " + list);
+    console.log(list[0].data.stickied)
+    while(j < 10){
+      console.log(list[0])
+      console.log(i)
+      console.log("HEREL"+list[i])
+      if(!list[i].data.stickied){
+        prompts.push({
+          id : list[i].data.id,
+          prompt : list[i].data.title
+        });
+        j++;
+      }
+      i++;
+    }
+    console.log(prompts);
+  }
+);
+
 
 
 //not needed with song -> story
@@ -42,6 +76,7 @@ app.get("/songChosen", function(req, res) {
 
 app.post("/sendSong", function(req, res) {
   console.log(req.query);
+
   request.post('http://localhost:6000/SingSong',
      req.query.body,
      function(error, response, body) {
@@ -50,6 +85,19 @@ app.post("/sendSong", function(req, res) {
        console.log('body:', body);
        return response
   });
+});
+
+
+app.post("/sendTitles", function(req,res){
+  console.log(req);
+  // for(var i = 0; i < req.options.length && i < 10; i++){
+  //   prompts.push({      // made up json attributes,
+  //     id : req.body.id, // just relay what information is important
+  //     Prompt : req.body.prompt,
+  //     Passage : req.body.comments.second
+  //   })
+  // }
+  res.statusCode;
 });
 
 app.listen(port, function(error) {
