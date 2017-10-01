@@ -32,6 +32,37 @@ app.get("/getPrompts", function(req, res) {
 });
 
 
+// TODO /getStory endpoint
+
+
+request.get("http://reddit.com/r/writingprompts.json",
+  function(error, response, body) {
+    console.log('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', JSON.parse(body));
+    var i = 0
+    var j = 0;
+    var list = JSON.parse(body).data.children;
+    console.log("List: " + list);
+    console.log(list[0].data.stickied)
+    while(j < 10){
+      console.log(list[0])
+      console.log(i)
+      console.log("HEREL"+list[i])
+      if(!list[i].data.stickied){
+        prompts.push({
+          id : list[i].data.id,
+          prompt : list[i].data.title
+        });
+        j++;
+      }
+      i++;
+    }
+    console.log(prompts);
+  }
+);
+
+
 
 //not needed with song -> story
 app.get("/songChosen", function(req, res) {
@@ -61,13 +92,15 @@ app.post("/sendSong", function(req, res) {
 
 
 app.post("/sendTitles", function(req,res){
-  for(var i = 0; i < req.options.length && i < 10; i++){
-    prompts.push({      // made up json attributes,
-      id : req.body.id, // just relay what information is important
-      Prompt : req.body.prompt,
-      Passage : req.body.comments.second
-    })
-  }
+  console.log(req);
+  // for(var i = 0; i < req.options.length && i < 10; i++){
+  //   prompts.push({      // made up json attributes,
+  //     id : req.body.id, // just relay what information is important
+  //     Prompt : req.body.prompt,
+  //     Passage : req.body.comments.second
+  //   })
+  // }
+  res.statusCode;
 });
 
 app.listen(port, function(error) {

@@ -72,7 +72,7 @@ def getRedditStores():
     headers = {"Authorization": credJson, "User-Agent": "Mozilla/5.0 AppleWebKit/537.36"}
     response = requests.get("https://oauth.reddit.com/r/writingprompts/top/?sort=top&t=week", headers=headers)
     print response.json()
-    requests.post("localhost:3000/sendTitles",response.json())
+    requests.post("http://localhost:3000/sendTitles",data=response.json())
     return response.json()
 
 def getSentimentAna(lyrics):
