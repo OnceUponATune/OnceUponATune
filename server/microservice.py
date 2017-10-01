@@ -170,5 +170,4 @@ def getSentimentAna(lyrics):
 
 if __name__ == '__main__':
     postLyrics()
-    getRedditStores()
     app.run(debug=True)
