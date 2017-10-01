@@ -48,12 +48,14 @@ app.get("/songChosen", function(req, res) {
 
 app.post("/sendSong", function(req, res) {
   console.log(req.query);
-  request.post('http://localhost:5000/SingSong',
-  req.body,
-  function(error, response, body) {
-    console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', body);
+
+  request.post('http://localhost:6000/SingSong',
+     req.query.body,
+     function(error, response, body) {
+       console.log('error:', error);
+       console.log('statusCode:', response && response.statusCode);
+       console.log('body:', body);
+       return response
   });
 });
 
