@@ -13,7 +13,8 @@ class PromptList extends Component {
   }
   checkStory(event){
      console.log(event)
-     fetch('http://localhost:3000/getStory',{method:'POST',body:event.target.index})
+     console.log(event.target.value)
+     fetch('http://localhost:3000/getStory',{method:'POST',body:event.target.value})
      .then((res)=>{
         console.log(res)
      })
@@ -33,8 +34,8 @@ class PromptList extends Component {
                   {this.props.data[index].prompt}
               </CardText>
               </Card>
-              <button index={index} onClick={this.checkStory.bind(this)}>Semantic Analysis</button>
-            </div>;
+                 <button type="button" value={this.props.data[index].id} onClick={this.checkStory.bind(this)}>Semantic Analysis</button>
+              </div>;
 
    }
     render(){
