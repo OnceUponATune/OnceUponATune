@@ -11,6 +11,8 @@ var app = express();
 var port = 3000;
 //Python server port = 5000
 
+var prompts = [];
+
 var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
@@ -30,6 +32,7 @@ app.get("/getPrompts", function(req, res) {
 });
 
 
+
 //not needed with song -> story
 app.get("/songChosen", function(req, res) {
   // get started example
@@ -44,7 +47,7 @@ app.get("/songChosen", function(req, res) {
 });
 
 app.post("/sendSong", function(req, res) {
-  console.log(JSON.stringify(req.body));
+  console.log(req.query);
   request.post('http://localhost:5000/SingSong',
   req.body,
   function(error, response, body) {
@@ -52,6 +55,17 @@ app.post("/sendSong", function(req, res) {
     console.log('statusCode:', response && response.statusCode);
     console.log('body:', body);
   });
+});
+
+
+app.post("/sendTitles", function(req,res){
+  for(var i = 0; i < req.options.length && i < 10; i++){
+    prompts.push({      // made up json attributes,
+      id : req.body.id, // just relay what information is important
+      Prompt : req.body.prompt,
+      Passage : req.body.comments.second
+    })
+  }
 });
 
 app.listen(port, function(error) {
