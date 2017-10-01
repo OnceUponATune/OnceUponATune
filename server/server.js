@@ -24,31 +24,61 @@ app.get("/", function(req, res) {
 });
 
 app.get("/getPrompts", function(req, res) {
-  res.json({"subreddit": {
-    "Prompt1":"Scary",
-    "Prompt2":"Funny",
-    "Prompt3":"SciFi"
-  }});
+  res.json(prompts);
 });
 
 
 // TODO /getStory endpoint
+app.post("/getStory", function(req, res) {
+  console.log("in getStory");
+  console.log(req);
+
+  var id = req.body;
+  var story = "";
+  var connotation = "";
+  var reply = [];
+
+  console.log("Id: "+ id);
+
+  request.get("http://reddit.com/comments/"+id+".json",
+  function(error, response, body){
+    console.log('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', JSON.parse(body));
+    story = JSON.parse(body).data.children[1].data.body;
+    console.log(story);
+  });
+
+  request.post("http://localhost:5000/postStory",
+  story,
+  function(error, response, body){
+    console.log('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', JSON.parse(body));
+    connotation = body;
+  })
+  reply.push({
+    "conn" : connotation,
+    "story" : story
+  });
+  res.send(reply);
+});
 
 
 request.get("http://reddit.com/r/writingprompts.json",
   function(error, response, body) {
-    console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', JSON.parse(body));
+    // console.log('error:', error);
+    // console.log('statusCode:', response && response.statusCode);
+    // console.log('body:', JSON.parse(body));
     var i = 0
     var j = 0;
     var list = JSON.parse(body).data.children;
-    console.log("List: " + list);
-    console.log(list[0].data.stickied)
+    // console.log("List: " + list);
+    // console.log(list[0].data.stickied)
     while(j < 10){
-      console.log(list[0])
-      console.log(i)
-      console.log("HEREL"+list[i])
+      // console.log(list[0])
+      // console.log(i)
+      // console.log("HEREL"+list[i])
       if(!list[i].data.stickied){
         prompts.push({
           id : list[i].data.id,
@@ -58,7 +88,7 @@ request.get("http://reddit.com/r/writingprompts.json",
       }
       i++;
     }
-    console.log(prompts);
+    // console.log(prompts);
   }
 );
 
@@ -91,17 +121,17 @@ app.post("/sendSong", function(req, res) {
 });
 
 
-app.post("/sendTitles", function(req,res){
-  console.log(req);
-  // for(var i = 0; i < req.options.length && i < 10; i++){
-  //   prompts.push({      // made up json attributes,
-  //     id : req.body.id, // just relay what information is important
-  //     Prompt : req.body.prompt,
-  //     Passage : req.body.comments.second
-  //   })
-  // }
-  res.statusCode;
-});
+// app.post("/sendTitles", function(req,res){
+//   console.log(req);
+//   // for(var i = 0; i < req.options.length && i < 10; i++){
+//   //   prompts.push({      // made up json attributes,
+//   //     id : req.body.id, // just relay what information is important
+//   //     Prompt : req.body.prompt,
+//   //     Passage : req.body.comments.second
+//   //   })
+//   // }
+//   res.statusCode;
+// });
 
 app.listen(port, function(error) {
   if (error) {
