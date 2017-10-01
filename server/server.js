@@ -22,11 +22,8 @@ app.get("/", function(req, res) {
 });
 
 app.get("/getPrompts", function(req, res) {
-  res.json({"subreddit": {
-    "Prompt1":"Scary",
-    "Prompt2":"Funny",
-    "Prompt3":"SciFi"
-  }});
+   console.log(req)
+  res.send(json(['1','2','3']))
 });
 
 

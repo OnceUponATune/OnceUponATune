@@ -71,8 +71,14 @@ def getRedditStores():
     credJson = "bearer " + "8UTUaRcvtmnPqkdNZNdi0pA1Ygc"
     headers = {"Authorization": credJson, "User-Agent": "Mozilla/5.0 AppleWebKit/537.36"}
     response = requests.get("https://oauth.reddit.com/r/writingprompts/top/?sort=top&t=week", headers=headers)
-    print response.json()
-    requests.post("localhost:3000/sendTitles",response.json())
+    data = response.json()
+    # print(data)
+    # result = []
+    # for tupl in data:
+    #     comments = request.get("https://oauth.reddit.com/"+tupl.permalink,headers=header)
+    #     result.append((tupl,list(comments.json()[1].data.children)))
+
+    requests.post("http://localhost:3000/sendTitles",data=response.json())
     return response.json()
 
 def getSentimentAna(lyrics):

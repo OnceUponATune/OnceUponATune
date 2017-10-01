@@ -7,14 +7,32 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 var App = React.createClass({
+   getInitialState: function() {
+     return { data: null };
+   },
 
-  render: function() {
-    return (
-      <div>
-        <PromptList/>
-      </div>
-    )
-  }
+   componentDidMount: function() {
+      fetch('http://localhost:3000/getPrompts',{method:'GET'})
+      .then(res=>{
+         if(res.ok){
+            return res.json()
+         }
+      })
+      .then(res=>{
+         console.log(res)
+         this.setState({
+            data: res
+         })
+      })
+   },
+
+   render: function() {
+     if (this.state.data) {
+       return <PromptList data={this.state.data} />;
+     }
+
+     return <div>Loading...</div>;
+   }
 });
 
 var mapStateToProps = function (state) {
