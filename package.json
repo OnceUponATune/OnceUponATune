@@ -13,6 +13,7 @@
     "babel-plugin-react-transform": "^1.1.0",
     "babel-runtime": "^5.8.20",
     "express": "^4.13.3",
+    "material-ui": "^0.19.2",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-list": "^0.8.8",
@@ -21,6 +22,8 @@
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.5.0"

@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../redux/actions'
 import PromptList from '../components/PromptList'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 var App = React.createClass({
 
