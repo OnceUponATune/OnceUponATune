@@ -24,9 +24,6 @@ app.get("/", function(req, res) {
 });
 
 app.get("/getPrompts", function(req, res) {
-   console.log(req)
-  res.send(json(['1','2','3']))
-});
 
 
 // TODO /getStory endpoint
@@ -55,9 +52,10 @@ request.get("http://reddit.com/r/writingprompts.json",
       }
       i++;
     }
-    console.log(prompts);
+    res.send(prompts);
   }
 );
+})
 
 
 

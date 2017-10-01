@@ -33,12 +33,12 @@ def getStory():
 
 @app.route('/postStory',methods=['POST'])
 def postStory():
-    story = request.form['story']
-    getSentimentAna(story)
+    story = request.form['body']
+    return getSentimentAna(story)
 
 @app.route('/postLyrics',methods=['POST'])
 def postLyrics():
-    # story = request.form['story']
+    # story = request.form['body']
     artist='kanyewest'
     song_title='goodmorning'
     artist = artist.lower()
