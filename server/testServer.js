@@ -7,7 +7,7 @@ var webpackHotMiddleware = require('webpack-hot-middleware')
 var request = require('request');
 
 var app = express();
-var port = 5000;
+var port = 6000;
 
 var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
@@ -21,8 +21,8 @@ app.get("/", function(req, res) {
 
 app.post("/SingSong", function(req, res) {
   console.log("success?");
-  console.log(JSON.stringify(req.body));
-  res.send("I recieved: " + req.body);
+  console.log(JSON.stringify(req.query));
+  res.send("I recieved: " + req.query);
 });
 
 app.listen(port, function(error) {
