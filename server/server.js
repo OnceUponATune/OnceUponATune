@@ -23,9 +23,9 @@ app.get("/", function(req, res) {
   res.sendFile(path.resolve('../client/index.html'));
 });
 
-app.get("/getPrompts", function(req, res) {
-  res.json(prompts);
-});
+
+
+
 
 
 // TODO /getStory endpoint
@@ -64,33 +64,34 @@ app.post("/getStory", function(req, res) {
   res.send(reply);
 });
 
-
-request.get("http://reddit.com/r/writingprompts.json",
-  function(error, response, body) {
-    // console.log('error:', error);
-    // console.log('statusCode:', response && response.statusCode);
-    // console.log('body:', JSON.parse(body));
-    var i = 0
-    var j = 0;
-    var list = JSON.parse(body).data.children;
-    // console.log("List: " + list);
-    // console.log(list[0].data.stickied)
-    while(j < 10){
-      // console.log(list[0])
-      // console.log(i)
-      // console.log("HEREL"+list[i])
-      if(!list[i].data.stickied){
-        prompts.push({
-          id : list[i].data.id,
-          prompt : list[i].data.title
-        });
-        j++;
+app.get("/getPrompts", function(req, res) {
+  request.get("http://reddit.com/r/writingprompts.json",
+    function(error, response, body) {
+      // console.log('error:', error);
+      // console.log('statusCode:', response && response.statusCode);
+      // console.log('body:', JSON.parse(body));
+      var i = 0
+      var j = 0;
+      var list = JSON.parse(body).data.children;
+      // console.log("List: " + list);
+      // console.log(list[0].data.stickied)
+      while(j < 10){
+        // console.log(list[0])
+        // console.log(i)
+        // console.log("HEREL"+list[i])
+        if(!list[i].data.stickied){
+          prompts.push({
+            id : list[i].data.id,
+            prompt : list[i].data.title
+          });
+          j++;
+        }
+        i++;
       }
-      i++;
+      res.send(prompts);
     }
-    // console.log(prompts);
-  }
-);
+  );
+});
 
 
 

@@ -33,12 +33,13 @@ def getStory():
 
 @app.route('/postStory',methods=['POST'])
 def postStory():
-    story = request.form['story']
-    getSentimentAna(story)
+    print request
+    story = request.form['body']
+    return getSentimentAna(story)
 
 @app.route('/postLyrics',methods=['POST'])
 def postLyrics():
-    # story = request.form['story']
+    # story = request.form['body']
     artist='kanyewest'
     song_title='goodmorning'
     artist = artist.lower()
@@ -71,7 +72,13 @@ def getRedditStores():
     credJson = "bearer " + "8UTUaRcvtmnPqkdNZNdi0pA1Ygc"
     headers = {"Authorization": credJson, "User-Agent": "Mozilla/5.0 AppleWebKit/537.36"}
     response = requests.get("https://oauth.reddit.com/r/writingprompts/top/?sort=top&t=week", headers=headers)
-    print response.json()
+    data = response.json()
+    # print(data)
+    # result = []
+    # for tupl in data:
+    #     comments = request.get("https://oauth.reddit.com/"+tupl.permalink,headers=header)
+    #     result.append((tupl,list(comments.json()[1].data.children)))
+
     requests.post("http://localhost:3000/sendTitles",data=response.json())
     return response.json()
 
@@ -79,10 +86,10 @@ def getSentimentAna(lyrics):
     try:
         print 'here'
         # lyrics lies between up_partition and down_partition
-        up_partition = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->'
-        down_partition = '<!-- MxM banner -->'
-        lyrics = lyrics.split(up_partition)[1]
-        lyrics = lyrics.split(down_partition)[0]
+        # up_partition = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->'
+        # down_partition = '<!-- MxM banner -->'
+        # lyrics = lyrics.split(up_partition)[1]
+        # lyrics = lyrics.split(down_partition)[0]
         lyrics = lyrics.replace('<br>','').replace('<','').replace('br','').replace('/>','').replace('i>','').replace('</div>','').replace('/','').strip().lower()
         lyrics = re.sub(r'\[(.*?)\]','',lyrics)
         def filterStopWord(word):
