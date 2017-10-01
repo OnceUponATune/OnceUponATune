@@ -8,6 +8,7 @@ class PromptList extends Component {
     super(props);
     console.log(props)
     this.state = {
+      analysis:'',
       count: 0
     }
   }
@@ -17,10 +18,14 @@ class PromptList extends Component {
      fetch('http://localhost:3000/getStory',{method:'POST',body:event.target.value})
      .then((res)=>{
         console.log(res)
+        this.setState({
+           analysis: res.conn,
+           story: res.story
+        })
      })
   }
   testFunc(key,index){
-     console.log(this.state)
+   //   console.log(this.state)
      return <div key={key}
                  style={{
                     marginTop: 10,
@@ -43,6 +48,10 @@ class PromptList extends Component {
         <div>
           <div style={{textAlign: "center", fontSize: "40"}}>
             /r/WritingPrompts
+          </div>
+          <div>
+            <div>{this.state.analysis}</div>
+            <div>{this.state.story}</div>
           </div>
           <div
             style=
