@@ -6,6 +6,7 @@ from nltk.corpus import subjectivity
 from nltk.sentiment.util import *
 from nltk.corpus import stopwords
 from flask import Flask
+from flask import request
 import requests.auth
 import requests
 import re
@@ -33,8 +34,9 @@ def getStory():
 
 @app.route('/postStory',methods=['POST'])
 def postStory():
-    print request
-    story = request.form['body']
+    print '*********'
+    story = request.json
+    print 'STORY' , story
     return getSentimentAna(story)
 
 @app.route('/postLyrics',methods=['POST'])
@@ -65,7 +67,6 @@ def features(sentence):
 
 def getRedditStores():
     client_auth = requests.auth.HTTPBasicAuth('xPfqMy9KUhrOvQ', 'lhJZGKDpwGosU1Ed87ps63KMrW0')
-    post_data = {"grant_type": "password", "username": "leonliang33", "password": "Mycastle1"}
     headers = {"User-Agent": "Mozilla/5.0 AppleWebKit/537.36"}
     # response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data, headers=headers)
     # print response.json().access_token

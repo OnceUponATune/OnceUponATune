@@ -31,9 +31,11 @@ app.get("/", function(req, res) {
 // TODO /getStory endpoint
 app.post("/getStory", function(req, res) {
   console.log("in getStory");
-  console.log(req);
+  // console.log(res)
+  // console.log(req.body);
+  // console.log(req.query)
 
-  var id = req.body;
+  var id = '73jwis';
   var story = "";
   var connotation = "";
   var reply = [];
@@ -45,23 +47,27 @@ app.post("/getStory", function(req, res) {
     console.log('error:', error);
     console.log('statusCode:', response && response.statusCode);
     console.log('body:', JSON.parse(body));
-    story = JSON.parse(body).data.children[1].data.body;
-    console.log(story);
+    story = JSON.parse(body)[1].data.children[1].data.body;
+    console.log("******************************")
+    console.log(typeof story);
+    request.post(
+      'http://localhost:5000/postStory',{
+         json: story
+     },
+    function(error2, response2, body2){
+     console.log('error:', error2);
+     console.log('statusCode:', response2 && response2.statusCode);
+     console.log('body:', body2);
+     connotation = body2;
+     reply.push({
+      "conn" : connotation,
+      "story" : story
+     });
+     res.send(reply);
+    })
+
   });
 
-  request.post("http://localhost:5000/postStory",
-  story,
-  function(error, response, body){
-    console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', JSON.parse(body));
-    connotation = body;
-  })
-  reply.push({
-    "conn" : connotation,
-    "story" : story
-  });
-  res.send(reply);
 });
 
 app.get("/getPrompts", function(req, res) {

@@ -9,18 +9,35 @@ class PromptList extends Component {
     console.log(props)
     this.state = {
       analysis:'',
+      story:'',
       count: 0
     }
   }
   checkStory(event){
      console.log(event)
      console.log(event.target.value)
-     fetch('http://localhost:3000/getStory',{method:'POST',body:event.target.value})
+     var data = new FormData();
+     data.append( "json", JSON.stringify( event.target.value ) );
+   //   console.log(data)
+     fetch('http://localhost:3000/getStory',{
+      method:'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: "json="+JSON.stringify({a: 7, str: event.target.value}),
+      query: "json="+JSON.stringify({a: 7, str: event.target.value})
+      })
      .then((res)=>{
         console.log(res)
+        if(res.ok){
+           return res.json()
+        }
+     }).then(res=>{
+        console.log(res)
         this.setState({
-           analysis: res.conn,
-           story: res.story
+           analysis: res[0].conn,
+           story: res[0].story
         })
      })
   }
